@@ -27,9 +27,7 @@ import java.util.List;
         public List<String[]> convertCSV(Path path) throws IOException {
             try (Reader reader = Files.newBufferedReader(path);
                  CSVReader csvReader = new CSVReaderBuilder(reader)
-                         .withCSVParser(new CSVParserBuilder()
-                                 .withSeparator(';')
-                                 .build())
+                         .withCSVParser(new CSVParserBuilder().withSeparator(';').build())
                          .withSkipLines(1)
                          .build()) {
                 return csvReader.readAll();
