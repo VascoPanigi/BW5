@@ -5,10 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.UUID;
 
@@ -17,13 +14,20 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor
 @Entity
+@ToString
 @Table(name = "provinces")
 public class Province {
     @Id
     @GeneratedValue
     @Setter(AccessLevel.NONE)
     private UUID id;
+    private String name;
+    private String region;
+    private String notation;
 
-
-    
+    public Province(String name, String region, String notation) {
+        this.name = name;
+        this.region = region;
+        this.notation = notation;
+    }
 }
