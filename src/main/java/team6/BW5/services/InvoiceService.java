@@ -18,11 +18,7 @@ public class InvoiceService {
     @Autowired
     private InvoiceRepository invoiceRepository;
 
-    public Page<Invoice> getAllInvoices(int pageNum, int pageSize, String sortBy){
-        if(pageSize>500) pageSize = 500;
-        Pageable pageable = PageRequest.of(pageNum, pageSize, Sort.by(sortBy));
-        return invoiceRepository.findAll(pageable);
-    }
+
 
     public Invoice save(NewInvoiceDTO body) {
         Invoice newInvoice = new Invoice(body.date(), body.amount(), convertInvoiceStatusToStr(body.status()));
@@ -36,5 +32,4 @@ public class InvoiceService {
             throw new BadRequestException("Invalid invoice status: " + deviceStatus + ". Choose between PENDING, APPROVED, SENT, PAID, CANCELLED. Exception " + e);
         }
     }
-
 }
