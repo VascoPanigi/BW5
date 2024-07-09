@@ -14,6 +14,7 @@ import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 import team6.BW5.entities.User;
 import team6.BW5.exceptions.UnauthorizedException;
+import team6.BW5.services.UserService;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -24,7 +25,7 @@ public class JWTAuthFilter extends OncePerRequestFilter {
     @Autowired
     private JWTTools jwtTools;
     @Autowired
-    private UtentiService utentiService;
+    private UserService userService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -39,7 +40,7 @@ public class JWTAuthFilter extends OncePerRequestFilter {
         jwtTools.verifyToken(accessToken);
 
         String utentiId = jwtTools.extractIdFromToken(accessToken);
-        User currentUser = utentiService.findById(UUID.fromString(utentiId));
+        User currentUser = userService.findById(UUID.fromString(utentiId));
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(currentUser, null, currentUser.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
