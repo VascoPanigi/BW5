@@ -43,6 +43,11 @@ public class UserService {
 
     }
 
+    public void findByIdAndDelete(UUID id) {
+        User found = this.findById(id);
+        this.userRepository.delete(found);
+    }
+
 
     public User findById(UUID id) {
         return this.userRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
