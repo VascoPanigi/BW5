@@ -30,7 +30,7 @@ public class UserService {
     private RoleService roleService;
 
 
-    public Page<User> getUtenti(int pageNumber, int pageSize, String sortBy) {
+    public Page<User> getAllUsers(int pageNumber, int pageSize, String sortBy) {
         if (pageSize > 20) pageSize = 20;
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
         return userRepository.findAll(pageable);
@@ -50,6 +50,17 @@ public class UserService {
 
         return this.userRepository.save(user);
 
+    }
+
+    public User findByIdAndUpdate(UUID id, UserDTO payload) {
+        User found = this.findById(id);
+        found.setUsername(payload.username());
+        found.setName(payload.name());
+        found.setSurname(payload.surname());
+        found.setEmail(payload.email());
+        found.setPassword(payload.password());
+
+        return userRepository.save(found);
     }
 
     public void findByIdAndDelete(UUID id) {
