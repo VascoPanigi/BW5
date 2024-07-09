@@ -12,13 +12,25 @@ import team6.BW5.exceptions.BadRequestException;
 import team6.BW5.payloads.invoices.NewInvoiceDTO;
 import team6.BW5.repositories.InvoiceRepository;
 
+import java.util.UUID;
+
 @Service
 public class InvoiceService {
 
     @Autowired
     private InvoiceRepository invoiceRepository;
 
+    public Page<Invoice> getInvoicesByClient(UUID clientId, int pageNum, int pageSize, String sortBy) {
+        if(pageSize > 500) pageSize = 500;
+        Pageable pageable = PageRequest.of(pageNum, pageSize, Sort.by(sortBy));
+        return invoiceRepository.findByClientId(clientId, pageable);
+    }
 
+//    public Page<Invoice> getInvoicesByStatus(int pageNum, int pageSize, InvoiceStatus sortBy){
+//        if(pageSize>500) pageSize = 500;
+//        Pageable pageable = PageRequest.of(pageNum, pageSize, Sort.by(String.valueOf(sortBy)));
+//        return invoiceRepository.findAll(pageable);
+//    }
 
     public Invoice save(NewInvoiceDTO body) {
         Invoice newInvoice = new Invoice(body.date(), body.amount(), convertInvoiceStatusToStr(body.status()));
