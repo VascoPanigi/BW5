@@ -17,17 +17,11 @@ public class RoleService {
     private RoleRepository roleRepository;
 
     public Role saveRole(NewRoleDTO body) {
-
-
         Role user = new Role(body.effectiveRole());
-
-
         return this.roleRepository.save(user);
-
     }
 
     public Role findById(UUID id) {
         return this.roleRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
-
     }
 }

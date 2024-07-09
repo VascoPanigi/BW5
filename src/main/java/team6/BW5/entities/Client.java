@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import team6.BW5.entities.enums.ClientType;
+import team6.BW5.enums.InvoiceStatus;
 
 import java.sql.Date;
 import java.util.UUID;
@@ -31,7 +31,7 @@ public class Client {
     private String contactSurname;
     private String contactPhoneNumber;
     @Enumerated(EnumType.STRING)
-    private ClientType clientType;
+    private InvoiceStatus.ClientType clientType;
     private String companyLogo;
     @OneToOne
     @JoinColumn(name = "headOffice_id")
@@ -40,7 +40,7 @@ public class Client {
     @JoinColumn(name = "headQuarters_id")
     private Address headQuarters;
 
-    public Client(String companyName, String vatNumber, String email, Date insertionDate, Date lastContactDate, int annualTurnover, String pec, String phoneNumber, String contactEmail, String contactName, String contactSurname, String contactPhoneNumber, ClientType clientType, String companyLogo, Address headOffice, Address headQuarters) {
+    public Client(String companyName, String vatNumber, String email, Date insertionDate, Date lastContactDate, int annualTurnover, String pec, String phoneNumber, String contactEmail, String contactName, String contactSurname, String contactPhoneNumber, InvoiceStatus.ClientType clientType, String companyLogo, Address headOffice, Address headQuarters) {
         this.companyName = companyName;
         this.vatNumber = vatNumber;
         this.email = email;
