@@ -1,5 +1,6 @@
 package team6.BW5.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,7 @@ public class Role {
 
     private String effectiveRole;
 
+    @JsonBackReference
     @ManyToMany(mappedBy = "rolesList")
     private List<User> userList;
 

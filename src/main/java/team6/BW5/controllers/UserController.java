@@ -6,15 +6,29 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import team6.BW5.entities.User;
+import team6.BW5.payloads.RoleDTO.RoleAssignedDTO;
 import team6.BW5.payloads.userDTO.UserDTO;
 import team6.BW5.services.UserService;
 
-@RestController
-@RequestMapping("Users")
-public class UserController {
+import java.util.UUID;
 
+@RestController
+@RequestMapping("/users")
+public class UserController {
     @Autowired
     private UserService userService;
+
+
+    @GetMapping("/{userId}")
+    private User findById(@PathVariable UUID userId) {
+        return this.userService.findById(userId);
+    }
+
+    @PatchMapping("/{userId}")
+    private User AddRole(@PathVariable UUID userId, @RequestBody RoleAssignedDTO payload) {
+        return this.userService.addRoles(userId, payload);
+
+    }
 
     @GetMapping
     public Page<User> getUsersList(@RequestParam(defaultValue = "0") int page,
@@ -37,5 +51,6 @@ public class UserController {
     @DeleteMapping("/me")
     public void deleteOwnProfile(@AuthenticationPrincipal User currentAuthenticatedUser) {
         userService.findByIdAndDelete(currentAuthenticatedUser.getId());
+
     }
 }

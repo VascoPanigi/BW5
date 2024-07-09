@@ -4,6 +4,8 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
+import java.util.UUID;
+
 public record UserDTO(
         @NotEmpty(message = "Username field is required")
         @Size(min = 4, max = 20, message = "The username must be between 4 and 20 characters")
@@ -19,6 +21,7 @@ public record UserDTO(
         String name,
         @NotEmpty(message = "surname field is required")
         @Size(min = 2, max = 20, message = "surname field is required")
-        String surname
+        String surname,
+        UUID roleId
 ) {
 }
