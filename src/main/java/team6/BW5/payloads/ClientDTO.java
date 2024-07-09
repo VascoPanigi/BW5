@@ -4,6 +4,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 
 import java.util.Date;
+import java.util.UUID;
 
 public record ClientDTO(
         @NotEmpty(message = "Company name cannot be empty")
@@ -31,6 +32,13 @@ public record ClientDTO(
         @NotEmpty(message = "Contact surname cannot be empty")
         String contactSurname,
         @NotEmpty(message = "Contact phone number cannot be empty")
-        String contactPhoneNumber
+        String contactPhoneNumber,
+        @NotEmpty(message = "Client type cannot be empty")
+        String clientType,
+        @NotEmpty(message = "Head office ID cannot be empty")
+        UUID headOfficeId,
+        @NotEmpty(message = "Head quarters ID cannot be empty")
+        UUID headQuartersId,
+        String companyLogo
 ) {
 }
