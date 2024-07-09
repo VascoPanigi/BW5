@@ -20,9 +20,9 @@ public class AuthService {
     private PasswordEncoder bCrypt;
 
     public String authenticateUtenteAndGenerateToken(UserLoginDTO payload) {
-        User dipendenti = this.userService.findByEmail(payload.email());
-        if (bCrypt.matches(payload.password(), dipendenti.getPassword())) {
-            return jwtTools.createToken(dipendenti);
+        User user = this.userService.findByEmail(payload.email());
+        if (bCrypt.matches(payload.password(), user.getPassword())) {
+            return jwtTools.createToken(user);
         } else {
             throw new UnauthorizedException("Credenziali non corrette");
         }
