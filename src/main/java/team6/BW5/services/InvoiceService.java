@@ -7,6 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import team6.BW5.entities.Invoice;
+import team6.BW5.enums.InvoiceStatus;
+import team6.BW5.exceptions.BadRequestException;
 import team6.BW5.payloads.invoices.NewInvoiceDTO;
 import team6.BW5.repositories.InvoiceRepository;
 
@@ -22,6 +24,17 @@ public class InvoiceService {
         return invoiceRepository.findAll(pageable);
     }
 
+    public Invoice save(NewInvoiceDTO body) {
+        Invoice newInvoice = new Invoice(body.date(), body.amount(), convertInvoiceStatusToStr(body.status()));
+        return invoiceRepository.save(newInvoice);
+    }
 
+    public static InvoiceStatus convertInvoiceStatusToStr(String deviceStatus){
+        try {
+            return InvoiceStatus.valueOf(deviceStatus.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new BadRequestException("Invalid invoice status: " + deviceStatus + ". Choose between PENDING, APPROVED, SENT, PAID, CANCELLED. Exception " + e);
+        }
+    }
 
 }
