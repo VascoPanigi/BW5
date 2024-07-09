@@ -1,5 +1,6 @@
 package team6.BW5;
 
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -8,12 +9,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class Bw5Application {
 
 
-	public static void main(String[] args) {
+    public static void main(String[] args) {
 
-		SpringApplication.run(Bw5Application.class, args);
+        SpringApplication.run(Bw5Application.class, args);
 
 
-	}
+    }
 
 
 }
