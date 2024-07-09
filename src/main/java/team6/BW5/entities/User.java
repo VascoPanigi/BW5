@@ -1,6 +1,7 @@
 package team6.BW5.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,7 +20,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @ToString
-@JsonIgnoreProperties({"password", "enabled", "authorities"})
+@JsonIgnoreProperties({"password", "enabled", "authorities", "accountNonLocked", "credentialsNonExpired", "accountNonExpired"})
 public class User implements UserDetails {
 
     @Id
@@ -38,6 +39,7 @@ public class User implements UserDetails {
 
     private String avatarURL;
 
+    @JsonManagedReference
     @ManyToMany
     @JoinTable(
             name = "users_roles",
@@ -45,13 +47,15 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> rolesList;
 
-    public User(String username, String email, String password, String name, String surname, String avatarURL) {
+    public User(String username, String email, String password, String name, String surname, String avatarURL, List<Role> rolesList) {
         this.username = username;
         this.email = email;
         this.password = password;
         this.name = name;
         this.surname = surname;
         this.avatarURL = avatarURL;
+        this.rolesList = rolesList;
+
     }
 
     @Override
