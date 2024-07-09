@@ -1,6 +1,5 @@
 package team6.BW5.utility;
 
-import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
@@ -14,21 +13,20 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class DBInitializer {
 
     @Autowired
-    private  CSVService csvService;
+    private CSVService csvService;
     @Autowired
-    private ProvinceRepository provinceRepository; 
-    
+    private ProvinceRepository provinceRepository;
+
     @Autowired
     private MunicipalityRepository municipalityRepository;
 
     @Bean
-    public void initializeProvinces() throws IOException{
+    public void initializeProvinces() throws IOException {
         Path provincesPath = Paths.get("src/main/java/team6/BW5/data/province-italiane.csv");
 
         List<String[]> provincesList = csvService.convertCSV(provincesPath);
@@ -48,7 +46,7 @@ public class DBInitializer {
     }
 
     @Bean
-    public void initializeMunicipalities() throws IOException{
+    public void initializeMunicipalities() throws IOException {
         Path provincesPath = Paths.get("src/main/java/team6/BW5/data/comuni-italiani.csv");
 
         List<String[]> municipalitiesList = csvService.convertCSV(provincesPath);
@@ -57,7 +55,7 @@ public class DBInitializer {
                 .map(row -> {
                     Municipality municipality = new Municipality();
                     municipality.setName(row[2]);
-                    municipality.setProvince(provinceRepository.findByName(row[3]));
+                    municipality.setProvince(provinceRepository.findFirstByName(row[3]));
                     return municipality;
                 })
                 .toList();
