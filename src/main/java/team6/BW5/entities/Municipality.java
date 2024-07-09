@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
@@ -14,10 +13,11 @@ import java.util.UUID;
 @NoArgsConstructor
 @Table(name = "municipalities")
 public class Municipality {
-@Id
+    @Id
     @GeneratedValue
     private UUID id;
 
+    @Column(name = "name")
     private String name;
 
     @ManyToOne
