@@ -20,7 +20,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @ToString
 @JsonIgnoreProperties({"password", "enabled", "authorities"})
-
 public class User implements UserDetails {
 
     @Id
