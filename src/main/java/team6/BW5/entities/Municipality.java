@@ -15,9 +15,11 @@ import java.util.UUID;
 @Table(name = "municipalities")
 public class Municipality {
 @Id
+    @Id
     @GeneratedValue
     private UUID id;
 
+    @Column(name = "name")
     private String name;
 
     @ManyToOne
