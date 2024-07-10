@@ -2,6 +2,7 @@ package team6.BW5.payloads;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -14,11 +15,10 @@ public record ClientDTO(
         @NotEmpty(message = "Email cannot be empty")
         @Email
         String email,
-        @NotEmpty(message = "Insertion date cannot be empty")
+        @NotNull(message = "Insertion date cannot be empty")
         LocalDate insertionDate,
-        @NotEmpty(message = "Last contact date cannot be empty")
+        @NotNull(message = "Last contact date cannot be empty")
         LocalDate lastContactDate,
-        @NotEmpty(message = "Annual turnover cannot be empty")
         int annualTurnover,
         @NotEmpty(message = "Pec cannot be empty")
         String pec,
@@ -35,9 +35,9 @@ public record ClientDTO(
         String contactPhoneNumber,
         @NotEmpty(message = "Client type cannot be empty")
         String clientType,
-        @NotEmpty(message = "Head office ID cannot be empty")
+        @NotNull(message = "Head office ID cannot be empty")
         UUID headOfficeId,
-        @NotEmpty(message = "Head quarters ID cannot be empty")
+        @NotNull(message = "Head quarters ID cannot be empty")
         UUID headQuartersId,
         String companyLogo
 ) {
