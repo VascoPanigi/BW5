@@ -3,6 +3,10 @@ package team6.BW5.services;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import team6.BW5.entities.Address;
@@ -63,6 +67,12 @@ public class ClientService {
         this.clientRepository.save(found);
         return img;
 
+    }
+
+    public Page<Client> orderClientsByProvince(int pageNum, int pageSize, String sortBy) {
+        if (pageSize > 500) pageSize = 500;
+        Pageable pageable = PageRequest.of(pageNum, pageSize, Sort.by(sortBy));
+        return clientRepository.orderClientsByProvince(pageable);
     }
 
 
