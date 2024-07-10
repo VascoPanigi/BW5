@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import team6.BW5.enums.ClientType;
-import team6.BW5.enums.InvoiceStatus;
 
 import java.time.LocalDate;
 import java.util.UUID;
