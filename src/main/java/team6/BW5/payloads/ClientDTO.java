@@ -3,7 +3,7 @@ package team6.BW5.payloads;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.UUID;
 
 public record ClientDTO(
@@ -15,9 +15,9 @@ public record ClientDTO(
         @Email
         String email,
         @NotEmpty(message = "Insertion date cannot be empty")
-        Date insertionDate,
+        LocalDate insertionDate,
         @NotEmpty(message = "Last contact date cannot be empty")
-        Date lastContactDate,
+        LocalDate lastContactDate,
         @NotEmpty(message = "Annual turnover cannot be empty")
         int annualTurnover,
         @NotEmpty(message = "Pec cannot be empty")
