@@ -31,6 +31,13 @@ public class Invoice {
         this.status = status;
     }
 
+    public Invoice(LocalDate date, double amount, InvoiceStatus status, Client client) {
+        this.date = date;
+        this.amount = amount;
+        this.status = status;
+        this.client = client;
+    }
+
     @Override
     public String toString() {
         return "Invoice{" +
