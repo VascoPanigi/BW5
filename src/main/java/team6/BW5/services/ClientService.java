@@ -1,14 +1,19 @@
 package team6.BW5.services;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import team6.BW5.entities.Address;
 import team6.BW5.entities.Client;
 import team6.BW5.enums.ClientType;
 import team6.BW5.exceptions.BadRequestException;
+import team6.BW5.exceptions.NotFoundException;
 import team6.BW5.payloads.ClientDTO;
 import team6.BW5.repositories.ClientRepository;
 
+import java.io.IOException;
 import java.util.UUID;
 
 @Service
@@ -18,6 +23,8 @@ public class ClientService {
     ClientRepository clientRepository;
     @Autowired
     AddressService addressService;
+    @Autowired
+    private Cloudinary cloudinary;
 
     public static ClientType convertClientTypeToStr(String clientType) {
         try {
@@ -47,6 +54,15 @@ public class ClientService {
 
     public void deleteClientById(UUID id) {
         clientRepository.deleteById(id);
+    }
+
+    public String uploadImage(UUID id, MultipartFile file) throws IOException {
+        Client found = this.clientRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
+        String img = (String) cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap()).get("url");
+        found.setCompanyLogo(img);
+        this.clientRepository.save(found);
+        return img;
+
     }
 
 
