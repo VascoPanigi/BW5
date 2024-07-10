@@ -6,10 +6,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import team6.BW5.entities.Client;
 import team6.BW5.entities.Invoice;
 import team6.BW5.enums.InvoiceStatus;
 import team6.BW5.exceptions.BadRequestException;
 import team6.BW5.payloads.invoices.NewInvoiceDTO;
+import team6.BW5.repositories.ClientRepository;
 import team6.BW5.repositories.InvoiceRepository;
 
 import java.util.UUID;
@@ -19,6 +21,9 @@ public class InvoiceService {
 
     @Autowired
     private InvoiceRepository invoiceRepository;
+
+    @Autowired
+    private ClientService clientService;
 
     public Page<Invoice> getInvoicesByClient(UUID clientId, int pageNum, int pageSize, String sortBy) {
         if(pageSize > 500) pageSize = 500;
@@ -32,8 +37,9 @@ public class InvoiceService {
 //        return invoiceRepository.findAll(pageable);
 //    }
 
-    public Invoice save(NewInvoiceDTO body) {
-        Invoice newInvoice = new Invoice(body.date(), body.amount(), convertInvoiceStatusToStr(body.status()));
+    public Invoice saveInvoice(NewInvoiceDTO body) {
+        Client client = clientService.getClientById(body.clientId());
+        Invoice newInvoice = new Invoice(body.date(), body.amount(), convertInvoiceStatusToStr(body.status()), client);
         return invoiceRepository.save(newInvoice);
     }
 
