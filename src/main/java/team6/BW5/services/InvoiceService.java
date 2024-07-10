@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import team6.BW5.entities.Client;
 import team6.BW5.entities.Invoice;
 import team6.BW5.enums.InvoiceStatus;
 import team6.BW5.exceptions.BadRequestException;
@@ -21,19 +22,14 @@ public class InvoiceService {
     @Autowired
     private InvoiceRepository invoiceRepository;
 
-    public static InvoiceStatus convertInvoiceStatusToStr(String deviceStatus) {
-        try {
-            return InvoiceStatus.valueOf(deviceStatus.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            throw new BadRequestException("Invalid invoice status: " + deviceStatus + ". Choose between PENDING, APPROVED, SENT, PAID, CANCELLED. Exception " + e);
-        }
-    }
+        @Autowired
+        private ClientService clientService;
 
-//    public Page<Invoice> getInvoicesByStatus(int pageNum, int pageSize, InvoiceStatus sortBy){
-//        if(pageSize>500) pageSize = 500;
-//        Pageable pageable = PageRequest.of(pageNum, pageSize, Sort.by(String.valueOf(sortBy)));
-//        return invoiceRepository.findAll(pageable);
-//    }
+        public Invoice saveInvoice(NewInvoiceDTO body) {
+            Client client = clientService.getClientById(body.clientId());
+            Invoice newInvoice = new Invoice(body.date(), body.amount(), convertInvoiceStatusToStr(body.status()), client);
+            return invoiceRepository.save(newInvoice);
+        }
 
     public Page<Invoice> getInvoicesByClient(UUID clientId, int pageNum, int pageSize, String sortBy) {
         if (pageSize > 500) pageSize = 500;
@@ -41,11 +37,13 @@ public class InvoiceService {
         return invoiceRepository.findByClientId(clientId, pageable);
     }
 
-    public Invoice save(NewInvoiceDTO body) {
-        Invoice newInvoice = new Invoice(body.date(), body.amount(), convertInvoiceStatusToStr(body.status()));
-        return invoiceRepository.save(newInvoice);
-    }
 
+//    public Page<Invoice> getInvoicesByStatus(int pageNum, int pageSize, InvoiceStatus sortBy){
+//        if(pageSize>500) pageSize = 500;
+//        Pageable pageable = PageRequest.of(pageNum, pageSize, Sort.by(String.valueOf(sortBy)));
+//        return invoiceRepository.findAll(pageable);
+//    }
+    
     public Invoice findById(UUID id) {
         return this.invoiceRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
     }
@@ -56,4 +54,12 @@ public class InvoiceService {
 
         return this.invoiceRepository.save(found);
     }
+
+    public static InvoiceStatus convertInvoiceStatusToStr(String deviceStatus){
+            try {
+                return InvoiceStatus.valueOf(deviceStatus.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                throw new BadRequestException("Invalid invoice status: " + deviceStatus + ". Choose between PENDING, APPROVED, SENT, PAID, CANCELLED. Exception " + e);
+            }
+        }
 }
