@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import team6.BW5.enums.InvoiceStatus;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.UUID;
 
 
@@ -21,8 +21,8 @@ public class Client {
     private String companyName;
     private String vatNumber;
     private String email;
-    private Date insertionDate;
-    private Date lastContactDate;
+    private LocalDate insertionDate;
+    private LocalDate lastContactDate;
     private int annualTurnover;
     private String pec;
     private String phoneNumber;
@@ -40,7 +40,7 @@ public class Client {
     @JoinColumn(name = "headQuarters_id")
     private Address headQuarters;
 
-    public Client(String companyName, String vatNumber, String email, Date insertionDate, Date lastContactDate, int annualTurnover, String pec, String phoneNumber, String contactEmail, String contactName, String contactSurname, String contactPhoneNumber, InvoiceStatus.ClientType clientType, String companyLogo, Address headOffice, Address headQuarters) {
+    public Client(String companyName, String vatNumber, String email, LocalDate insertionDate, LocalDate lastContactDate, int annualTurnover, String pec, String phoneNumber, String contactEmail, String contactName, String contactSurname, String contactPhoneNumber, InvoiceStatus.ClientType clientType, String companyLogo, Address headOffice, Address headQuarters) {
         this.companyName = companyName;
         this.vatNumber = vatNumber;
         this.email = email;
