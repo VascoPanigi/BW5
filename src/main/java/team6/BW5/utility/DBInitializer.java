@@ -27,7 +27,7 @@ public class DBInitializer {
     @Autowired
     private MunicipalityRepository municipalityRepository;
 
-    @Bean
+//    @Bean
     public void initializeProvinces() throws IOException {
         Path provincesPath = Paths.get("src/main/java/team6/BW5/data/province-italiane.csv");
 
@@ -47,7 +47,7 @@ public class DBInitializer {
 
     }
 
-    @Bean
+//    @Bean
     public void initializeMunicipalities() throws IOException {
         Path provincesPath = Paths.get("src/main/java/team6/BW5/data/comuni-italiani.csv");
 

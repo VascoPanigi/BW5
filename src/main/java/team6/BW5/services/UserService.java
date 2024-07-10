@@ -41,10 +41,13 @@ public class UserService {
             throw new BadRequestException("The user with email: " + body.email() + ", already exist.");
         });
         List<Role> roles = new ArrayList<>();
-        Role found = this.roleService.findById(body.roleId());
-        roles.add(found);
-        User user = new User(body.username(), body.email(), bCrypt.encode(body.password()), body.name(), body.surname(), "https://ui-avatars.com/api/?name=" + body.name() + "+" + body.surname(), roles);
-        return this.userRepository.save(user);
+
+        //TODO 1 - SISTEMARE RUOLO DEFAULT
+//        Role found = this.roleService.findById(body.roleId());
+//        roles.add(found);
+//        User user = new User(body.username(), body.email(), bCrypt.encode(body.password()), body.name(), body.surname(), "https://ui-avatars.com/api/?name=" + body.name() + "+" + body.surname(), null);
+        User user = new User(body.username(), body.email(), bCrypt.encode(body.password()), body.name(), body.surname());
+            return this.userRepository.save(user);
     }
 
     public User findByIdAndUpdate(UUID id, UserDTO payload) {
@@ -54,7 +57,6 @@ public class UserService {
         found.setSurname(payload.surname());
         found.setEmail(payload.email());
         found.setPassword(payload.password());
-
         return userRepository.save(found);
     }
 
@@ -69,20 +71,9 @@ public class UserService {
     }
 
     public User addRoles(UUID id, RoleAssignedDTO roleId) {
-        System.out.println("CIAONE");
         User found = this.findById(id);
-        System.out.println("CIAONE 2 ");
         Role role = this.roleService.findById(roleId.id());
-        System.out.println(role);
-        List<Role> roleList = found.getRolesList();
-        System.out.println("CIAONE 3 ");
-        System.out.println(role);
-
-        roleList.add(role);
-        System.out.println(roleList);
-
-        found.setRolesList(roleList);
-
+        found.getRolesList().add(role);
         return this.userRepository.save(found);
     }
 
