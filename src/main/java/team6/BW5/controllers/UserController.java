@@ -23,33 +23,30 @@ public class UserController {
         this.userService = userService;
     }
 
-
     @GetMapping("/{userId}")
 //    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-
+    @PreAuthorize("hasAuthority('USER')")
     private User findById(@PathVariable UUID userId) {
         System.out.println(this.userService.findById(userId).getAuthorities().toString());
         return this.userService.findById(userId);
     }
 
     @PatchMapping("/{userId}")
-//    @PreAuthorize("hasAuthority('admin')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     private User AddRole(@PathVariable UUID userId, @RequestBody RoleAssignedDTO payload) {
         return this.userService.addRoles(userId, payload);
-
     }
 
     @GetMapping
-//    @PreAuthorize("hasAuthority('admin')")
+    @PreAuthorize("hasAuthority('ADMIN')")// VVVVV
     public Page<User> getUsersList(@RequestParam(defaultValue = "0") int page,
                                    @RequestParam(defaultValue = "10") int size,
                                    @RequestParam(defaultValue = "id") String sortedBy) {
         return userService.getAllUsers(page, size, sortedBy);
-
     }
 
     @DeleteMapping("/{userId}")
-//    @PreAuthorize("hasAuthority('admin')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public void deleteUserProfile(@PathVariable UUID userId) {
         userService.findByIdAndDelete(userId);
     }
@@ -68,5 +65,4 @@ public class UserController {
     public void deleteOwnProfile(@AuthenticationPrincipal User currentAuthenticatedUser) {
         userService.findByIdAndDelete(currentAuthenticatedUser.getId());
     }
-
 }
