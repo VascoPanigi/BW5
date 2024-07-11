@@ -16,8 +16,12 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/users")
 public class UserController {
+    private final UserService userService;
+
     @Autowired
-    private UserService userService;
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
 
     @GetMapping("/{userId}")
@@ -26,14 +30,14 @@ public class UserController {
     }
 
     @PatchMapping("/{userId}")
-    @PreAuthorize("hasAuthority('admin')")
+//    @PreAuthorize("hasAuthority('admin')")
     private User AddRole(@PathVariable UUID userId, @RequestBody RoleAssignedDTO payload) {
         return this.userService.addRoles(userId, payload);
 
     }
 
     @GetMapping
-    @PreAuthorize("hasAuthority('admin')")
+//    @PreAuthorize("hasAuthority('admin')")
     public Page<User> getUsersList(@RequestParam(defaultValue = "0") int page,
                                    @RequestParam(defaultValue = "10") int size,
                                    @RequestParam(defaultValue = "id") String sortedBy) {
@@ -42,7 +46,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{userId}")
-    @PreAuthorize("hasAuthority('admin')")
+//    @PreAuthorize("hasAuthority('admin')")
     public void deleteUserProfile(@PathVariable UUID userId) {
         userService.findByIdAndDelete(userId);
     }

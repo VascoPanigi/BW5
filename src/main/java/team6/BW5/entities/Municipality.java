@@ -20,7 +20,7 @@ public class Municipality {
     @Column(name = "name")
     private String name;
 
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name = "province_id")
     private Province province;
 

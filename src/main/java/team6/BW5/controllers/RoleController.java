@@ -20,7 +20,7 @@ public class RoleController {
     private RoleService roleService;
 
     @PostMapping
-    @PreAuthorize("hasAuthority('admin')")
+//    @PreAuthorize("hasAuthority('admin')")
     public Role SaveRole(@RequestBody @Validated NewRoleDTO body, BindingResult validationResult) {
         if (validationResult.hasErrors()) {
             System.out.println(validationResult.getAllErrors());

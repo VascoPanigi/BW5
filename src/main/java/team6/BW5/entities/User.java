@@ -40,14 +40,14 @@ public class User implements UserDetails {
     private String avatarURL;
 
     @JsonManagedReference
-    @ManyToMany
+    @ManyToMany(fetch=FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> rolesList;
+    private List<Role> rolesList;
 
-    public User(String username, String email, String password, String name, String surname, String avatarURL, Set<Role> rolesList) {
+    public User(String username, String email, String password, String name, String surname, String avatarURL, List<Role> rolesList) {
         this.username = username;
         this.email = email;
         this.password = password;
@@ -55,7 +55,6 @@ public class User implements UserDetails {
         this.surname = surname;
         this.avatarURL = avatarURL;
         this.rolesList = rolesList;
-
     }
 
     public User(String username, String email, String password, String name, String surname) {
@@ -70,7 +69,7 @@ public class User implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.rolesList.stream()
                 .map(role -> new SimpleGrantedAuthority(role.getEffectiveRole()))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 }
 
