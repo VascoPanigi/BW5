@@ -8,6 +8,7 @@ import team6.BW5.entities.Municipality;
 import team6.BW5.entities.Province;
 import team6.BW5.entities.Role;
 import team6.BW5.entities.User;
+import team6.BW5.enums.UserRoles;
 import team6.BW5.repositories.MunicipalityRepository;
 import team6.BW5.repositories.ProvinceRepository;
 import team6.BW5.repositories.RoleRepository;
@@ -105,8 +106,8 @@ public class DBInitializer {
     public void initializeUsers(){
         User newUser = new User( "aldo.baglio", "gabibbo@striscia.it",  bCrypt.encode("AldoBaglio"), "Aldo", "Baglio");
 
-        Role newRole = new Role("User");
-        Role newRole2 = new Role("Admin");
+        Role newRole = new Role(UserRoles.USER);
+        Role newRole2 = new Role(UserRoles.ADMIN);
 
         List<Role> roleList = new ArrayList<>();
 

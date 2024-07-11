@@ -9,6 +9,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import team6.BW5.entities.Role;
 import team6.BW5.entities.User;
+import team6.BW5.enums.InvoiceStatus;
+import team6.BW5.enums.UserRoles;
 import team6.BW5.exceptions.BadRequestException;
 import team6.BW5.exceptions.NotFoundException;
 import team6.BW5.payloads.RoleDTO.RoleAssignedDTO;
@@ -38,19 +40,11 @@ public class UserService {
         this.userRepository.findByEmail(body.email()).ifPresent(utente -> {
             throw new BadRequestException("The user with email: " + body.email() + ", already exist.");
         });
-
-
-        //TODO 1 - SISTEMARE RUOLO DEFAULT
-
         User user = new User(body.username(), body.email(), bCrypt.encode(body.password()), body.name(), body.surname());
-        Role foundRole = roleService.findByRoleName("User");
-
+        Role foundRole = roleService.findByRoleName(UserRoles.USER);
         List<Role> roleList = new ArrayList<>();
-
         roleList.add(foundRole);
-
         user.setRolesList(roleList);
-
         return this.userRepository.save(user);
     }
 
@@ -85,5 +79,6 @@ public class UserService {
     public User findByEmail(String email) {
         return userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Utente con email " + email + " non trovato!"));
     }
+
 
 }

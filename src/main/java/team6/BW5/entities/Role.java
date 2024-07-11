@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import team6.BW5.enums.UserRoles;
 
 import java.util.List;
 import java.util.UUID;
@@ -20,13 +21,14 @@ public class Role {
     @GeneratedValue
     private UUID id;
 
-    private String effectiveRole;
+    @Enumerated(EnumType.STRING)
+    private UserRoles effectiveRole;
 
     @JsonBackReference
     @ManyToMany(mappedBy = "rolesList")
     private List<User> userList;
 
-    public Role(String effectiveRole) {
+    public Role(UserRoles effectiveRole) {
         this.effectiveRole = effectiveRole;
     }
 

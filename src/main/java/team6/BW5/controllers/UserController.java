@@ -25,7 +25,7 @@ public class UserController {
 
 
     @GetMapping("/{userId}")
-//    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
 
     private User findById(@PathVariable UUID userId) {
         System.out.println(this.userService.findById(userId).getAuthorities().toString());
@@ -33,7 +33,7 @@ public class UserController {
     }
 
     @PatchMapping("/{userId}")
-//    @PreAuthorize("hasAuthority('admin')")
+//    @PreAuthorize("hasAuthority('ADMIN')")
     private User AddRole(@PathVariable UUID userId, @RequestBody RoleAssignedDTO payload) {
         return this.userService.addRoles(userId, payload);
 
