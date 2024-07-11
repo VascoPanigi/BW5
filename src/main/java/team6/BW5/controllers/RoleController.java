@@ -1,6 +1,7 @@
 package team6.BW5.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,7 @@ public class RoleController {
     private RoleService roleService;
 
     @PostMapping
+    @PreAuthorize("hasAuthority('admin')")
     public Role SaveRole(@RequestBody @Validated NewRoleDTO body, BindingResult validationResult) {
         if (validationResult.hasErrors()) {
             System.out.println(validationResult.getAllErrors());
