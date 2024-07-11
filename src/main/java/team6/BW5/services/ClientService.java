@@ -62,7 +62,6 @@ public class ClientService {
         found.setCompanyLogo(img);
         this.clientRepository.save(found);
         return img;
-
     }
 
 
