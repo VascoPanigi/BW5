@@ -1,7 +1,10 @@
 package team6.BW5.entities;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import team6.BW5.enums.InvoiceStatus;
 
 import java.time.LocalDate;
@@ -19,6 +22,7 @@ public class Invoice {
     private UUID id;
     private LocalDate date;
     private double amount;
+    @Enumerated(EnumType.STRING)
     private InvoiceStatus status;
 
     @ManyToOne
