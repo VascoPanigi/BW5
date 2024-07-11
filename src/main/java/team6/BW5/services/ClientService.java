@@ -107,5 +107,11 @@ public class ClientService {
         }), pageable);
     }
 
+    public Page<Client> getAllClients(int pageNum, int pageSize, String sortBy) {
+        if (pageSize > 500) pageSize = 500;
+        Pageable pageable = PageRequest.of(pageNum, pageSize, Sort.by(sortBy));
+        return clientRepository.findAll(pageable);
+    }
+
 
 }

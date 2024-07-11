@@ -22,21 +22,20 @@ public class InvoiceService {
     @Autowired
     private InvoiceRepository invoiceRepository;
 
-        @Autowired
-        private ClientService clientService;
+    @Autowired
+    private ClientService clientService;
 
-        public Invoice saveInvoice(NewInvoiceDTO body) {
-            Client client = clientService.getClientById(body.clientId());
-            Invoice newInvoice = new Invoice(body.date(), body.amount(), convertInvoiceStatusToStr(body.status()), client);
-            return invoiceRepository.save(newInvoice);
-        }
+    public Invoice saveInvoice(NewInvoiceDTO body) {
+        Client client = clientService.getClientById(body.clientId());
+        Invoice newInvoice = new Invoice(body.date(), body.amount(), convertInvoiceStatusToStr(body.status()), client);
+        return invoiceRepository.save(newInvoice);
+    }
 
     public Page<Invoice> getInvoicesByClient(UUID clientId, int pageNum, int pageSize, String sortBy) {
         if (pageSize > 500) pageSize = 500;
         Pageable pageable = PageRequest.of(pageNum, pageSize, Sort.by(sortBy));
         return invoiceRepository.findByClientId(clientId, pageable);
     }
-
 
 //    public Page<Invoice> getInvoicesByStatus(int pageNum, int pageSize, InvoiceStatus sortBy){
 //        if(pageSize>500) pageSize = 500;
@@ -56,10 +55,10 @@ public class InvoiceService {
     }
 
     public static InvoiceStatus convertInvoiceStatusToStr(String deviceStatus){
-            try {
-                return InvoiceStatus.valueOf(deviceStatus.toUpperCase());
-            } catch (IllegalArgumentException e) {
-                throw new BadRequestException("Invalid invoice status: " + deviceStatus + ". Choose between PENDING, APPROVED, SENT, PAID, CANCELLED. Exception " + e);
-            }
+        try {
+            return InvoiceStatus.valueOf(deviceStatus.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new BadRequestException("Invalid invoice status: " + deviceStatus + ". Choose between PENDING, APPROVED, SENT, PAID, CANCELLED. Exception " + e);
         }
+    }
 }

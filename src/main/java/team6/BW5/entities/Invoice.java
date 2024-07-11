@@ -25,7 +25,7 @@ public class Invoice {
     @Enumerated(EnumType.STRING)
     private InvoiceStatus status;
 
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name = "client_id")
     private Client client;
 

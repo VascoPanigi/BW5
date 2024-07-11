@@ -29,4 +29,11 @@ public class Role {
     public Role(String effectiveRole) {
         this.effectiveRole = effectiveRole;
     }
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "effectiveRole='" + effectiveRole + '\'' +
+                '}';
+    }
 }
