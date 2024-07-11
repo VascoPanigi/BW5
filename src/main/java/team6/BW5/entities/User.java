@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
 @JsonIgnoreProperties({"password", "enabled", "authorities", "accountNonLocked", "credentialsNonExpired", "accountNonExpired"})
 public class User implements UserDetails {
 
@@ -70,6 +69,17 @@ public class User implements UserDetails {
         return this.rolesList.stream()
                 .map(role -> new SimpleGrantedAuthority(role.getEffectiveRole()))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                '}';
     }
 }
 

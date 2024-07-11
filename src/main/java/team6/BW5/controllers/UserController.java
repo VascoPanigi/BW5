@@ -25,7 +25,10 @@ public class UserController {
 
 
     @GetMapping("/{userId}")
+//    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+
     private User findById(@PathVariable UUID userId) {
+        System.out.println(this.userService.findById(userId).getAuthorities().toString());
         return this.userService.findById(userId);
     }
 
