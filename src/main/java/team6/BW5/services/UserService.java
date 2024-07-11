@@ -45,11 +45,11 @@ public class UserService {
         //TODO 1 - SISTEMARE RUOLO DEFAULT
 
         User user = new User(body.username(), body.email(), bCrypt.encode(body.password()), body.name(), body.surname());
-        Role foundRole = roleService.findByRoleName("User");
+//        Role foundRole = roleService.findByRoleName("User");
 
         Set<Role> roleList = new HashSet<>();
 
-        roleList.add(foundRole);
+//        roleList.add(foundRole);
 
         user.setRolesList(roleList);
 

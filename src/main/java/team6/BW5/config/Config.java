@@ -11,7 +11,7 @@ import java.util.Map;
 @Configuration
 public class Config {
     @Bean
-    public Cloudinary uploader(@Value("${CLOUDI_NAME}") String name,
+    public Cloudinary uploader(@Value("${CLOUD_NAME}") String name,
                                @Value("${CLOUD_KEY}") String secret,
                                @Value("${CLOUD_SECRET}") String key) {
         Map<String, String> configuration = new HashMap<>();

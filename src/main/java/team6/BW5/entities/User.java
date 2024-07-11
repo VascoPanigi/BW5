@@ -12,7 +12,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -46,9 +45,9 @@ public class User implements UserDetails {
             name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> rolesList;
+    private List<Role> rolesList;
 
-    public User(String username, String email, String password, String name, String surname, String avatarURL, Set<Role> rolesList) {
+    public User(String username, String email, String password, String name, String surname, String avatarURL, List<Role> rolesList) {
         this.username = username;
         this.email = email;
         this.password = password;
@@ -69,6 +68,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+
         return List.of();
     }
 

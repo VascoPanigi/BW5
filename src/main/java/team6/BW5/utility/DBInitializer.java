@@ -2,6 +2,7 @@ package team6.BW5.utility;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 import team6.BW5.entities.Municipality;
 import team6.BW5.entities.Province;
 import team6.BW5.repositories.MunicipalityRepository;
@@ -15,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//@Component
+@Component
 public class DBInitializer {
 
     @Autowired

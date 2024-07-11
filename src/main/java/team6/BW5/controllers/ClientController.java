@@ -13,6 +13,7 @@ import team6.BW5.payloads.ClientDTO;
 import team6.BW5.services.ClientService;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @RestController
@@ -37,12 +38,23 @@ public class ClientController {
     }
 
 
+    //    @GetMapping
+//    public Page<Client> getClients(@RequestParam(defaultValue = "0") int pageNum,
+//                                   @RequestParam(defaultValue = "10") int pageSize,
+//                                   @RequestParam(defaultValue = "id") String sortBy) {
+//
+//        return this.clientService.orderClientsByProvince(pageNum, pageSize, sortBy);
+//    }
     @GetMapping
-    public Page<Client> getClients(@RequestParam(defaultValue = "0") int pageNum,
-                                   @RequestParam(defaultValue = "10") int pageSize,
-                                   @RequestParam(defaultValue = "id") String sortBy) {
+    public Page<Client> queryDinamica(@RequestParam(defaultValue = "0") int pageNumber,
+                                      @RequestParam(defaultValue = "10") int pageSize,
+                                      @RequestParam(defaultValue = "id") String sortedBy,
+                                      @RequestParam(required = false) Integer annualTurnover,
+                                      @RequestParam(required = false) LocalDate insertionDate,
+                                      @RequestParam(required = false) LocalDate lastContactDate,
+                                      @RequestParam(required = false) String companyName) {
+        return clientService.findClients(pageNumber, pageSize, sortedBy, annualTurnover, insertionDate, lastContactDate, companyName);
 
-        return this.clientService.orderClientsByProvince(pageNum, pageSize, sortBy);
     }
 
 
