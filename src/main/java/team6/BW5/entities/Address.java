@@ -22,13 +22,13 @@ public class Address {
     private String street;
     private String zipCode;
     @ManyToOne
-    @JoinColumn(name = "municipality")
-    private Municipality municipality_id;
+    @JoinColumn(name = "municipality_id")
+    private Municipality municipality;
 
 
     public Address(String street, String zipCode, Municipality municipality_id) {
         this.street = street;
         this.zipCode = zipCode;
-        this.municipality_id = municipality_id;
+        this.municipality = municipality_id;
     }
 }

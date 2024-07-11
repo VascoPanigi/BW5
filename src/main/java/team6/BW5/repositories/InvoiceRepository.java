@@ -12,4 +12,9 @@ import java.util.UUID;
 public interface InvoiceRepository extends JpaRepository<Invoice, UUID> {
     Page<Invoice> findByClientId(UUID clientId, Pageable pageable);
 
+
+    //Page<Invoice> findByClientName(String clientName, Pageable pageable);
+
+    //Page<Invoice> findByYear(int year, Pageable pageable);
+
 }
