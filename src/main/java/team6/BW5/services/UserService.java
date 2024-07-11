@@ -15,8 +15,8 @@ import team6.BW5.payloads.RoleDTO.RoleAssignedDTO;
 import team6.BW5.payloads.userDTO.UserDTO;
 import team6.BW5.repositories.UserRepository;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -40,14 +40,20 @@ public class UserService {
         this.userRepository.findByEmail(body.email()).ifPresent(utente -> {
             throw new BadRequestException("The user with email: " + body.email() + ", already exist.");
         });
-        List<Role> roles = new ArrayList<>();
+
 
         //TODO 1 - SISTEMARE RUOLO DEFAULT
-//        Role found = this.roleService.findById(body.roleId());
-//        roles.add(found);
-//        User user = new User(body.username(), body.email(), bCrypt.encode(body.password()), body.name(), body.surname(), "https://ui-avatars.com/api/?name=" + body.name() + "+" + body.surname(), null);
+
         User user = new User(body.username(), body.email(), bCrypt.encode(body.password()), body.name(), body.surname());
-            return this.userRepository.save(user);
+        Role foundRole = roleService.findByRoleName("User");
+
+        Set<Role> roleList = new HashSet<>();
+
+        roleList.add(foundRole);
+
+        user.setRolesList(roleList);
+
+        return this.userRepository.save(user);
     }
 
     public User findByIdAndUpdate(UUID id, UserDTO payload) {
@@ -74,6 +80,7 @@ public class UserService {
         User found = this.findById(id);
         Role role = this.roleService.findById(roleId.id());
         found.getRolesList().add(role);
+
         return this.userRepository.save(found);
     }
 
