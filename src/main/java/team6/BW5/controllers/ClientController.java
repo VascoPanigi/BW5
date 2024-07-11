@@ -2,6 +2,7 @@ package team6.BW5.controllers;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +34,15 @@ public class ClientController {
     @PostMapping("/{autoreId}/companyLogo")
     public String uploadAvatar(@RequestParam("companyLogo") MultipartFile image, @PathVariable UUID autoreId) throws IOException {
         return this.clientService.uploadImage(autoreId, image);
+    }
+
+
+    @GetMapping
+    public Page<Client> getClients(@RequestParam(defaultValue = "0") int pageNum,
+                                   @RequestParam(defaultValue = "10") int pageSize,
+                                   @RequestParam(defaultValue = "id") String sortBy) {
+
+        return this.clientService.orderClientsByProvince(pageNum, pageSize, sortBy);
     }
 
 

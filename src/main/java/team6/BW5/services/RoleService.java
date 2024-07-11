@@ -24,4 +24,8 @@ public class RoleService {
     public Role findById(UUID id) {
         return this.roleRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
     }
+
+    public Role findByRoleName(String roleName) {
+        return this.roleRepository.findByEffectiveRole(roleName).orElseThrow(() -> new NotFoundException("nessun parametro torvato"));
+    }
 }
