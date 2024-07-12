@@ -49,13 +49,14 @@ public class ClientController {
     }
 
 
-//        @GetMapping
-//    public Page<Client> getClients(@RequestParam(defaultValue = "0") int pageNum,
-//                                   @RequestParam(defaultValue = "10") int pageSize,
-//                                   @RequestParam(defaultValue = "id") String sortBy) {
-//
-//        return this.clientService.orderClientsByProvince(pageNum, pageSize, sortBy);
-//    }
+    @GetMapping("/byProvince")
+    public Page<Client> getClients(@RequestParam(defaultValue = "0") int pageNum,
+                                   @RequestParam(defaultValue = "10") int pageSize,
+                                   @RequestParam(defaultValue = "id") String sortBy
+    ) {
+
+        return this.clientService.orderClientsByProvince(pageNum, pageSize, sortBy);
+    }
 
 
     @GetMapping
@@ -65,8 +66,9 @@ public class ClientController {
                                       @RequestParam(required = false) Integer annualTurnover,
                                       @RequestParam(required = false) LocalDate insertionDate,
                                       @RequestParam(required = false) LocalDate lastContactDate,
-                                      @RequestParam(required = false) String companyName) {
-        return clientService.findClients(pageNumber, pageSize, sortedBy, annualTurnover, insertionDate, lastContactDate, companyName);
+                                      @RequestParam(required = false) String companyName,
+                                      @RequestParam(required = false) String provinceName) {
+        return clientService.findClients(pageNumber, pageSize, sortedBy, annualTurnover, insertionDate, lastContactDate, companyName, provinceName);
 
 
     }

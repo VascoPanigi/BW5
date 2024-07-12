@@ -13,6 +13,7 @@ import team6.BW5.payloads.invoices.NewInvoiceDTO;
 import team6.BW5.payloads.invoices.NewInvoiceResponseDTO;
 import team6.BW5.services.InvoiceService;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @RestController
@@ -26,9 +27,28 @@ public class InvoiceController {
     public Page<Invoice> getInvoicesByClient(@PathVariable UUID clientId,
                                              @RequestParam(defaultValue = "0") int pageNum,
                                              @RequestParam(defaultValue = "10") int pageSize,
-                                             @RequestParam(defaultValue = "id") String sortBy) {
+                                             @RequestParam(defaultValue = "id") String sortBy
+    ) {
         return this.invoiceService.getInvoicesByClient(clientId, pageNum, pageSize, sortBy);
     }
+
+    @GetMapping
+    @PreAuthorize("hasAuthority('admin')")
+    public Page<Invoice> filteredInvoices(
+            @RequestParam(defaultValue = "0") int pageNumber,
+            @RequestParam(defaultValue = "10") int pageSize,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(required = false) String companyName,
+            @RequestParam(required = false) String status,
+            @RequestParam(required = false) LocalDate date,
+            @RequestParam(required = false) String year,
+            @RequestParam(required = false) String range1,
+            @RequestParam(required = false) String range2
+
+    ) {
+        return this.invoiceService.findInvoices(pageNumber, pageSize, sortBy, companyName, status, date, year, range1, range2);
+    }
+
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
