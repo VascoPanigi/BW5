@@ -72,11 +72,11 @@ public class ClientService {
         return img;
     }
 
-//    public Page<Client> orderClientsByProvince(int pageNum, int pageSize, String sortBy) {
-//        if (pageSize > 500) pageSize = 500;
-//        Pageable pageable = PageRequest.of(pageNum, pageSize, Sort.by(sortBy));
-//        return clientRepository.orderClientsByProvince(pageable);
-//    }
+    public Page<Client> orderClientsByProvince(int pageNum, int pageSize, String sortBy) {
+        if (pageSize > 500) pageSize = 500;
+        Pageable pageable = PageRequest.of(pageNum, pageSize, Sort.by(sortBy));
+        return clientRepository.orderClientsByProvince(pageable);
+    }
 
     public Page<Client> findClients(int pageNumber,
                                     int pageSize,
