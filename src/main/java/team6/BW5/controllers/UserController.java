@@ -16,17 +16,12 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/users")
 public class UserController {
-    private final UserService userService;
-
     @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
+    private UserService userService;
 
 
     @GetMapping("/{userId}")
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-
+    @PreAuthorize("hasAuthority('ADMIN')")
     public User findById(@PathVariable UUID userId) {
         System.out.println(this.userService.findById(userId).getAuthorities().toString());
         return this.userService.findById(userId);
@@ -36,20 +31,18 @@ public class UserController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public User AddRole(@PathVariable UUID userId, @RequestBody RoleAssignedDTO payload) {
         return this.userService.addRoles(userId, payload);
-
     }
 
     @GetMapping
-//    @PreAuthorize("hasAuthority('admin')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public Page<User> getUsersList(@RequestParam(defaultValue = "0") int page,
                                    @RequestParam(defaultValue = "10") int size,
                                    @RequestParam(defaultValue = "id") String sortedBy) {
         return userService.getAllUsers(page, size, sortedBy);
-
     }
 
     @DeleteMapping("/{userId}")
-//    @PreAuthorize("hasAuthority('admin')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public void deleteUserProfile(@PathVariable UUID userId) {
         userService.findByIdAndDelete(userId);
     }
@@ -68,5 +61,4 @@ public class UserController {
     public void deleteOwnProfile(@AuthenticationPrincipal User currentAuthenticatedUser) {
         userService.findByIdAndDelete(currentAuthenticatedUser.getId());
     }
-
 }
