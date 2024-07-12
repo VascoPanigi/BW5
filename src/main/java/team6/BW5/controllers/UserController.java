@@ -24,21 +24,20 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-//    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    @PreAuthorize("hasAuthority('USER')")
-    private User findById(@PathVariable UUID userId) {
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public User findById(@PathVariable UUID userId) {
         System.out.println(this.userService.findById(userId).getAuthorities().toString());
         return this.userService.findById(userId);
     }
 
     @PatchMapping("/{userId}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    private User AddRole(@PathVariable UUID userId, @RequestBody RoleAssignedDTO payload) {
+    public User AddRole(@PathVariable UUID userId, @RequestBody RoleAssignedDTO payload) {
         return this.userService.addRoles(userId, payload);
     }
 
     @GetMapping
-    @PreAuthorize("hasAuthority('ADMIN')")// VVVVV
+    @PreAuthorize("hasAuthority('ADMIN')")
     public Page<User> getUsersList(@RequestParam(defaultValue = "0") int page,
                                    @RequestParam(defaultValue = "10") int size,
                                    @RequestParam(defaultValue = "id") String sortedBy) {
