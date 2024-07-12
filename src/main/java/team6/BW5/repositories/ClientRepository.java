@@ -21,4 +21,12 @@ public interface ClientRepository extends JpaRepository<Client, UUID>, JpaSpecif
             "JOIN m.province p " +
             "ORDER BY p.name")
     Page<Client> orderClientsByProvince(Pageable pageable);
+
+//    @Query("SELECT c FROM Client c " +
+//            "JOIN c.headOffice a " +
+//            "JOIN a.municipality m " +
+//            "JOIN m.province p " +
+//            "WHERE p.name = :name " +
+//            "ORDER BY p.name")
+//    Page<Client> orderClientsByProvinceTrue(@Param("name") String name, Pageable pageable);
 }

@@ -2,6 +2,7 @@ package team6.BW5.services;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import team6.BW5.entities.Address;
 import team6.BW5.entities.Client;
+import team6.BW5.entities.Municipality;
+import team6.BW5.entities.Province;
 import team6.BW5.enums.ClientType;
 import team6.BW5.exceptions.BadRequestException;
 import team6.BW5.exceptions.NotFoundException;
@@ -84,7 +87,9 @@ public class ClientService {
                                     Integer annualTurnover,
                                     LocalDate insertionDate,
                                     LocalDate lastContactDate,
-                                    String companyName) {
+                                    String companyName,
+                                    String provinceName
+    ) {
         if (pageSize > 10) pageSize = 10;
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortedBy));
         clientRepository.orderClientsByProvince(pageable);
@@ -101,6 +106,12 @@ public class ClientService {
             }
             if (companyName != null) {
                 predicates.add(criteriaBuilder.like(root.get("companyName"), "%" + companyName + "%"));
+            }
+            if (provinceName != null) {
+                Join<Client, Address> AddressJoin = root.join("headOffice");
+                Join<Address, Municipality> municipalityJoin = AddressJoin.join("municipality");
+                Join<Municipality, Province> provinceJoin = municipalityJoin.join("province");
+                predicates.add(criteriaBuilder.equal(provinceJoin.get("name"), provinceName));
             }
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         }), pageable);
