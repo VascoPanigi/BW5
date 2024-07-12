@@ -21,7 +21,7 @@ public class Address {
     private UUID id;
     private String street;
     private String zipCode;
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name = "municipality_id")
     private Municipality municipality;
 

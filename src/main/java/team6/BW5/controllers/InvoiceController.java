@@ -3,6 +3,7 @@ package team6.BW5.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ public class InvoiceController {
     private InvoiceService invoiceService;
 
     @GetMapping("/{clientId}")
-    //@PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('admin')")
     public Page<Invoice> getInvoicesByClient(@PathVariable UUID clientId,
                                              @RequestParam(defaultValue = "0") int pageNum,
                                              @RequestParam(defaultValue = "10") int pageSize,
@@ -31,6 +32,7 @@ public class InvoiceController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('admin')")
     public NewInvoiceResponseDTO saveInvoice(@RequestBody @Validated NewInvoiceDTO body, BindingResult validationResult) {
         if (validationResult.hasErrors()) {
             System.out.println(validationResult.getAllErrors());

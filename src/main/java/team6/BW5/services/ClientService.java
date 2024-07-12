@@ -2,6 +2,7 @@ package team6.BW5.services;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import jakarta.persistence.criteria.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +19,9 @@ import team6.BW5.payloads.ClientDTO;
 import team6.BW5.repositories.ClientRepository;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -68,10 +72,44 @@ public class ClientService {
         return img;
     }
 
-    public Page<Client> orderClientsByProvince(int pageNum, int pageSize, String sortBy) {
+//    public Page<Client> orderClientsByProvince(int pageNum, int pageSize, String sortBy) {
+//        if (pageSize > 500) pageSize = 500;
+//        Pageable pageable = PageRequest.of(pageNum, pageSize, Sort.by(sortBy));
+//        return clientRepository.orderClientsByProvince(pageable);
+//    }
+
+    public Page<Client> findClients(int pageNumber,
+                                    int pageSize,
+                                    String sortedBy,
+                                    Integer annualTurnover,
+                                    LocalDate insertionDate,
+                                    LocalDate lastContactDate,
+                                    String companyName) {
+        if (pageSize > 10) pageSize = 10;
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortedBy));
+        clientRepository.orderClientsByProvince(pageable);
+        return clientRepository.findAll(((root, query, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            if (annualTurnover != null) {
+                predicates.add(criteriaBuilder.equal(root.get("annulTurnover"), annualTurnover));
+            }
+            if (insertionDate != null) {
+                predicates.add(criteriaBuilder.equal(root.get("insertionDate"), insertionDate));
+            }
+            if (lastContactDate != null) {
+                predicates.add(criteriaBuilder.equal(root.get("lastContactDate"), lastContactDate));
+            }
+            if (companyName != null) {
+                predicates.add(criteriaBuilder.like(root.get("companyName"), "%" + companyName + "%"));
+            }
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        }), pageable);
+    }
+
+    public Page<Client> getAllClients(int pageNum, int pageSize, String sortBy) {
         if (pageSize > 500) pageSize = 500;
         Pageable pageable = PageRequest.of(pageNum, pageSize, Sort.by(sortBy));
-        return clientRepository.orderClientsByProvince(pageable);
+        return clientRepository.findAll(pageable);
     }
 
 

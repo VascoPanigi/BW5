@@ -2,18 +2,22 @@ package team6.BW5.utility;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 import team6.BW5.entities.Municipality;
 import team6.BW5.entities.Province;
+import team6.BW5.entities.Role;
+import team6.BW5.entities.User;
 import team6.BW5.repositories.MunicipalityRepository;
 import team6.BW5.repositories.ProvinceRepository;
+import team6.BW5.repositories.RoleRepository;
+import team6.BW5.repositories.UserRepository;
 import team6.BW5.services.CSVService;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 //@Component
 public class DBInitializer {
@@ -24,7 +28,16 @@ public class DBInitializer {
     private ProvinceRepository provinceRepository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
+
+    @Autowired
     private MunicipalityRepository municipalityRepository;
+
+    @Autowired
+    private PasswordEncoder bCrypt;
 
     private static Map<String, String> getStringStringMap() {
         Map<String, String> provinceMap = new HashMap<>();
@@ -43,7 +56,7 @@ public class DBInitializer {
         return provinceMap;
     }
 
-    @Bean
+//    @Bean
     public void initializeProvinces() throws IOException {
         Path provincesPath = Paths.get("src/main/java/team6/BW5/data/province-italiane.csv");
 
@@ -63,7 +76,7 @@ public class DBInitializer {
 
     }
 
-    @Bean
+//    @Bean
     public void initializeMunicipalities() throws IOException {
         Path provincesPath = Paths.get("src/main/java/team6/BW5/data/comuni-italiani.csv");
 
@@ -86,5 +99,25 @@ public class DBInitializer {
                 .toList();
 
         newMunicipalities.forEach(municipalityRepository::save);
+    }
+
+    @Bean
+    public void initializeUsers(){
+        User newUser = new User( "aldo.baglio", "gabibbo@striscia.it",  bCrypt.encode("AldoBaglio"), "Aldo", "Baglio");
+
+        Role newRole = new Role("User");
+        Role newRole2 = new Role("Admin");
+
+        List<Role> roleList = new ArrayList<>();
+
+        roleRepository.save(newRole);
+        roleRepository.save(newRole2);
+
+        roleList.add(newRole);
+        roleList.add(newRole2);
+
+        newUser.setRolesList(roleList);
+
+        userRepository.save(newUser);
     }
 }

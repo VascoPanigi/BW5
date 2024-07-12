@@ -15,9 +15,7 @@ import team6.BW5.payloads.RoleDTO.RoleAssignedDTO;
 import team6.BW5.payloads.userDTO.UserDTO;
 import team6.BW5.repositories.UserRepository;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class UserService {
@@ -45,11 +43,11 @@ public class UserService {
         //TODO 1 - SISTEMARE RUOLO DEFAULT
 
         User user = new User(body.username(), body.email(), bCrypt.encode(body.password()), body.name(), body.surname());
-        Role foundRole = roleService.findByRoleName("User");
+//        Role foundRole = roleService.findByRoleName("User");
 
-        Set<Role> roleList = new HashSet<>();
+        List<Role> roleList = new ArrayList<>();
 
-        roleList.add(foundRole);
+//        roleList.add(foundRole);
 
         user.setRolesList(roleList);
 
