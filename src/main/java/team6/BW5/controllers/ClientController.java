@@ -23,13 +23,13 @@ public class ClientController {
     @Autowired
     private ClientService clientService;
 
-    @GetMapping
-    public Page<Client> getAllClients(@RequestParam(defaultValue = "0") int pageNum,
-                                   @RequestParam(defaultValue = "10") int pageSize,
-                                   @RequestParam(defaultValue = "id") String sortBy) {
-
-        return this.clientService.getAllClients(pageNum, pageSize, sortBy);
-    }
+//    @GetMapping
+//    public Page<Client> getAllClients(@RequestParam(defaultValue = "0") int pageNum,
+//                                   @RequestParam(defaultValue = "10") int pageSize,
+//                                   @RequestParam(defaultValue = "id") String sortBy) {
+//
+//        return this.clientService.getAllClients(pageNum, pageSize, sortBy);
+//    }
 
     @PostMapping
     @PreAuthorize("hasAuthority('admin')")
@@ -41,7 +41,7 @@ public class ClientController {
         return clientService.saveClient(clientPayload);
     }
 
-//In un secondo momento permettere ai client di modificare i propri dati
+    //In un secondo momento permettere ai client di modificare i propri dati
     @PostMapping("/{autoreId}/companyLogo")
     @PreAuthorize("hasAuthority('admin')")
     public String uploadAvatar(@RequestParam("companyLogo") MultipartFile image, @PathVariable UUID autoreId) throws IOException {
@@ -49,13 +49,13 @@ public class ClientController {
     }
 
 
-        @GetMapping
-    public Page<Client> getClients(@RequestParam(defaultValue = "0") int pageNum,
-                                   @RequestParam(defaultValue = "10") int pageSize,
-                                   @RequestParam(defaultValue = "id") String sortBy) {
-
-        return this.clientService.orderClientsByProvince(pageNum, pageSize, sortBy);
-    }
+//        @GetMapping
+//    public Page<Client> getClients(@RequestParam(defaultValue = "0") int pageNum,
+//                                   @RequestParam(defaultValue = "10") int pageSize,
+//                                   @RequestParam(defaultValue = "id") String sortBy) {
+//
+//        return this.clientService.orderClientsByProvince(pageNum, pageSize, sortBy);
+//    }
 
 
     @GetMapping
